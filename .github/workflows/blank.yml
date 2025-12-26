@@ -1,0 +1,28 @@
+name: FireFlink CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  execute-suite:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger FireFlink Suite Execution
+        run: |
+          curl --location 'https://app.v3.fireflink.com/dashboardexecution/optimize/v3/public/cicd/default-machine' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{
+            "suiteId": "SUITE_445655d9-9df8-4e0f-bac6-f751be90ada6",
+            "waitConfig": {
+              "captureScreenshots": "failedSteps",
+              "captureVideos": "notCapture",
+              "delayBetweenSteps": "0",
+              "delayBetweenS
